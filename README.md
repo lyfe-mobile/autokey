@@ -35,7 +35,7 @@ const Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
 func main() {
     // The key does not have to be chosen from the alphabet.
-    akey := autokey.NewAutoKey("My Key Is This@)(#*$", Alphabet)
+    akey := autokey.NewAutoKey("MyKeyIsThis", Alphabet, 2)
 
     input := "Something very important!";
     cipherText := akey.Encode(input)
@@ -44,6 +44,22 @@ func main() {
     println(recoveredText)
 }
 ```
+
+`NewAutoKey` takes a key and an alphabet as the first two
+arguments. The key should be chosen from the given alphabet.  
+
+The third argument to `NewAutoKey` is a seed length. When plaintext
+consists of many smaller strings with a very high number of
+duplicates, the regular Autokey cipher will spit out many duplicates
+on its own. This could allow a viewer to infer values based on the
+frequency of the duplicated strings.
+
+Using a seed will make this more difficult. A new seed is determined
+randomly for each call to `Encode()` and is then tacked on the front
+of the emitted string. This means that output will be larger than input.
+
+A 0 may be given as the seed length to use the regular Autokey
+algorithm with no random seed.
 
 ## Caveat
 
