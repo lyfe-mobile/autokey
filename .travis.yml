@@ -1,0 +1,17 @@
+language: go
+go:
+  - 1.7
+
+before_install:
+  # Support builds from non-"lyfe-mobile" repos (i.e. personal forks)
+  # this allows import statements to have "github.com/lyfe-mobile"
+  # but run CI from non "github.com/lyfe-mobile" repos.
+  - mkdir -p $HOME/gopath/src/github.com/lyfe-mobile
+  - ln -s $HOME/gopath/src/github.com/$TRAVIS_REPO_SLUG $HOME/gopath/src/github.com/lyfe-mobile/autokey
+  - cd $HOME/gopath/src/github.com/lyfe-mobile/autokey
+
+before_script:
+  - go get golang.org/x/tools/cmd/cover
+
+script:
+  - bash build.sh
